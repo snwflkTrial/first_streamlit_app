@@ -23,6 +23,8 @@ st.dataframe(fruitToShow)
 
 # New section to display fruityvice API response
 st.header('Fruityvice Fruit Advice!')
+fruitChoice = st.text_input('What fruit would you like information about?', 'Kiwi')
+st.write('The user entered', fruitChoice)
 
 import requests as rq
 fruityviceResponse = rq.get("https://fruityvice.com/api/fruit/" + 'kiwi')
