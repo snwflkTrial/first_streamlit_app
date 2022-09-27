@@ -12,3 +12,9 @@ st.header('Build Your Own Fruit Smoothie')
 import pandas as pd
 myFruitList = pd.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 st.dataframe(myFruitList)
+
+# Add a pick list so users can select the fruit they want included
+st.multiselect('Pick some fruits: ', list(myFruitList.index))
+
+# display table on the page
+st.dataframe(myFruitList)
