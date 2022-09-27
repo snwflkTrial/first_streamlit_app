@@ -26,4 +26,9 @@ st.header('Fruityvice Fruit Advice!')
 
 import requests as rq
 fruityviceResponse = rq.get("https://fruityvice.com/api/fruit/watermelon")
-st.text(fruityviceResponse.json())
+# st.text(fruityviceResponse.json())
+
+# normalize the json response from fruityverse
+fruityviceNormalized = pd.json_normalize(fruityviceResponse.json())
+# output it to the screen as a table
+st.dataframe(fruityviceNormalized)
