@@ -34,3 +34,5 @@ fruityviceResponse = rq.get("https://fruityvice.com/api/fruit/" + 'kiwi')
 fruityviceNormalized = pd.json_normalize(fruityviceResponse.json())
 # output it to the screen as a table
 st.dataframe(fruityviceNormalized)
+
+import snowflake.connector
