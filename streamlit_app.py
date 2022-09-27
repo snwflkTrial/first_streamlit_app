@@ -42,3 +42,7 @@ myCur.execute('select * from fruit_load_list')
 myDataRows = myCur.fetchall()
 st.header('The fruit load list contains:')
 st.dataframe(myDataRows)
+
+# Allow end user to add a fruit to the list
+addMyFruit = st.text_input('What fruit would you like to add?', '')
+st.write('Thanks for adding', addMyFruit)
