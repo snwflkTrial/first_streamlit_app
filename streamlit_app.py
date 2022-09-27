@@ -44,7 +44,7 @@ st.header('The fruit load list contains:')
 st.dataframe(myDataRows)
 
 # Allow end user to add a fruit to the list
-addMyFruit = st.text_input('What fruit would you like to add?', '')
+addMyFruit = st.text_input('What fruit would you like to add?', 'jackfruit')
 st.write('Thanks for adding', addMyFruit)
 
 
