@@ -25,7 +25,7 @@ st.dataframe(fruitToShow)
 st.header('Fruityvice Fruit Advice!')
 
 import requests as rq
-fruityviceResponse = rq.get("https://fruityvice.com/api/fruit/watermelon")
+fruityviceResponse = rq.get("https://fruityvice.com/api/fruit/" + 'kiwi')
 # st.text(fruityviceResponse.json())
 
 # normalize the json response from fruityverse
