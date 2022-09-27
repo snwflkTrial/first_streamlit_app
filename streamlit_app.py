@@ -15,7 +15,8 @@ myFruitList = myFruitList.set_index('Fruit')
 # st.dataframe(myFruitList)
 
 # Add a pick list so users can select the fruit they want included
-st.multiselect('Pick some fruits:', list(myFruitList.index), ['Avocado', 'Strawberries'])
+fruitSelected = st.multiselect('Pick some fruits:', list(myFruitList.index), ['Avocado', 'Strawberries'])
+fruitToShow = myFruitList.loc[fruitSelected]
 
 # display table on the page
-st.dataframe(myFruitList)
+st.dataframe(fruitToShow)
