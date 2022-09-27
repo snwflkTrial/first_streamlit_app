@@ -35,4 +35,10 @@ fruityviceNormalized = pd.json_normalize(fruityviceResponse.json())
 # output it to the screen as a table
 st.dataframe(fruityviceNormalized)
 
-import snowflake.connector
+import snowflake.connector as sc
+myCnx = sc.connect(**st.secrets['snowflake'])
+myCur = myCnx.cursor()
+myCur.execute('SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()')
+myDataRow = myCur.fetchone()
+st.text('Hello from Snowflake:')
+st.text(myDataRow)
