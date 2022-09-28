@@ -44,13 +44,36 @@ try:
 except URLError as e:
   st.error()
 
-# fruityviceResponse = rq.get("https://fruityvice.com/api/fruit/" + 'kiwi')
-# st.text(fruityviceResponse.json())
+st.header('The fruit load list contains:')
+def getFruitLoadList():
+  with myCnx.cursor() as myCur:
+    myCur.execute('select * from fruit_load_list')
+    return myCur.fetchall()
 
-# normalize the json response from fruityverse
-# fruityviceNormalized = pd.json_normalize(fruityviceResponse.json())
-# output it to the screen as a table
-# st.dataframe(fruityviceNormalized)
+# Add a button to load the fruit
+if st.button('Get Fruit Load List'):
+  myCnx = sc.connect(**st.secrets['snowflake'])
+  myDataRows = getFruitLoadList()
+  st.dataframe(myDataRows)
+
+# allow end user to add fruit to the list
+def insertRowSnwflk(newFruit):
+  with myCnx.cursor() as myCur:
+    myCur.execute("insert into fruit_load_list values ('" + newFruit + "')")
+    return 'Thanks for adding ' + newFruit
+  
+addMyFruit = st.text_input('What fruit would you like to add?')
+if st.button('Add a Fruit to the list'):
+  myCnx = sc.connect(**st.secrets['snowflake'])
+  backFromFunction = insertRowSnwflk(addMyFruit)
+  st.text(backFromFunction)
+
+if st.button('Get Fruit List'):
+  myCnx = sc.connect(**st.secrets['snowflake'])
+  myDataRows = getFruitLoadList()
+  myCnx.close()
+  st.dataframe(myDataRows)
+  
 st.stop()
 
 myCnx = sc.connect(**st.secrets['snowflake'])
@@ -64,4 +87,4 @@ st.dataframe(myDataRows)
 addMyFruit = st.text_input('What fruit would you like to add?', 'jackfruit')
 st.write('Thanks for adding', addMyFruit)
 
-myCur.execute("insert into fruit_load_list values ('from streamlit')")
+
