@@ -68,6 +68,8 @@ if st.button('Add a Fruit to the list'):
   backFromFunction = insertRowSnwflk(addMyFruit)
   st.text(backFromFunction)
 
+st.header('View Our Fruit List - Add Your Favorites!')
+
 if st.button('Get Fruit List'):
   myCnx = sc.connect(**st.secrets['snowflake'])
   myDataRows = getFruitLoadList()
