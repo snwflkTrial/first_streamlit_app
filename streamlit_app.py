@@ -13,7 +13,6 @@ st.text('🥑🍞 Avocado Toast')
 
 st.header('Build Your Own Fruit Smoothie')
 
-
 myFruitList = pd.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 myFruitList = myFruitList.set_index('Fruit')
 # st.dataframe(myFruitList)
@@ -27,21 +26,28 @@ st.dataframe(fruitToShow)
 
 # New section to display fruityvice API response
 st.header('Fruityvice Fruit Advice!')
-fruitChoice = st.text_input('What fruit would you like information about?', 'Kiwi')
-st.write('The user entered', fruitChoice)
+#fruitChoice = st.text_input('What fruit would you like information about?', 'Kiwi')
+#st.write('The user entered', fruitChoice)
+try:
+  fruitChoice = st.text_input('What fruit would you like information about?')
+  if not fruitChoice:
+    st.error('Please select a fruit to get information')
+  else:
+    fruityviceResponse = rq.get("https://fruityvice.com/api/fruit/" + fruitChoice)
+    fruityviceNormalized = pd.json_normalize(fruityviceResponse.json())
+    st.dataframe(fruityviceNormalized)
 
+except URLError as e:
+  st.error()
 
-fruityviceResponse = rq.get("https://fruityvice.com/api/fruit/" + 'kiwi')
+# fruityviceResponse = rq.get("https://fruityvice.com/api/fruit/" + 'kiwi')
 # st.text(fruityviceResponse.json())
 
 # normalize the json response from fruityverse
-fruityviceNormalized = pd.json_normalize(fruityviceResponse.json())
+# fruityviceNormalized = pd.json_normalize(fruityviceResponse.json())
 # output it to the screen as a table
-st.dataframe(fruityviceNormalized)
+# st.dataframe(fruityviceNormalized)
 st.stop()
-
-
-
 
 myCnx = sc.connect(**st.secrets['snowflake'])
 myCur = myCnx.cursor()
@@ -53,6 +59,5 @@ st.dataframe(myDataRows)
 # Allow end user to add a fruit to the list
 addMyFruit = st.text_input('What fruit would you like to add?', 'jackfruit')
 st.write('Thanks for adding', addMyFruit)
-
 
 myCur.execute("insert into fruit_load_list values ('from streamlit')")
