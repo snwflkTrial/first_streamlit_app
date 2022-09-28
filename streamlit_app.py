@@ -24,18 +24,22 @@ fruitToShow = myFruitList.loc[fruitSelected]
 # display table on the page
 st.dataframe(fruitToShow)
 
-# New section to display fruityvice API response
-st.header('Fruityvice Fruit Advice!')
 #fruitChoice = st.text_input('What fruit would you like information about?', 'Kiwi')
 #st.write('The user entered', fruitChoice)
+def getFruityviceData(thisFruitChoice):
+  fruityviceResponse = rq.get("https://fruityvice.com/api/fruit/" + thisFruitChoice)
+  fruityviceNormalized = pd.json_normalize(fruityviceResponse.json())
+  return fruityviceNormalized
+
+# New section to display fruityvice API response
+st.header('Fruityvice Fruit Advice!')
 try:
   fruitChoice = st.text_input('What fruit would you like information about?')
   if not fruitChoice:
     st.error('Please select a fruit to get information')
   else:
-    fruityviceResponse = rq.get("https://fruityvice.com/api/fruit/" + fruitChoice)
-    fruityviceNormalized = pd.json_normalize(fruityviceResponse.json())
-    st.dataframe(fruityviceNormalized)
+    backFromFunction = getFruityViceData(fruitChoice)
+    st.dataframe(backFromFunction)
 
 except URLError as e:
   st.error()
